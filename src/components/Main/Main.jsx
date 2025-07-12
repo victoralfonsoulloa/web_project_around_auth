@@ -2,22 +2,20 @@ import { useEffect, useState, useContext } from 'react';
 import addButton from '../../images/add-button.png';
 import editIcon from '../../images/edit_icon.svg';
 import editButton from '../../images/edit-button.png';
-import Popup from './Components/Popup/Popup.jsx';  
-import NewCard from './Components/Popup/Form/NewCard/NewCard.jsx';  
-import EditAvatar from './Components/Popup/Form/EditAvatar/EditAvatar.jsx';  
-import EditProfile from './Components/Popup/Form/EditProfile/EditProfile.jsx'; 
-import Card from './Components/Card/Card.jsx';  
-import RemoveCard from './Components/Popup/Form/RemoveCard/RemoveCard.jsx'; 
+import Popup from './Components/Popup/Popup.jsx';
+import NewCard from './Components/Popup/Form/NewCard/NewCard.jsx';
+import EditAvatar from './Components/Popup/Form/EditAvatar/EditAvatar.jsx';
+import EditProfile from './Components/Popup/Form/EditProfile/EditProfile.jsx';
+import Card from './Components/Card/Card.jsx';
+import RemoveCard from './Components/Popup/Form/RemoveCard/RemoveCard.jsx';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
 import { api } from '../../utils/api.js';
 import { AnimatePresence } from 'framer-motion';
-
 
 export default function Main() {
   const [cards, setCards] = useState([]);
 
   const { currentUser } = useContext(CurrentUserContext);
-
 
   useEffect(() => {
     api
