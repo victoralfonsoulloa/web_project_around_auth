@@ -16,6 +16,7 @@ function Login() {
             required
             minLength="2"
             maxLength="40"
+            autoComplete="username"
             // value={title}
             // onChange={handleTitle}
           />
@@ -28,6 +29,7 @@ function Login() {
             name="password"
             className="login__input login__input_type_password"
             id="login-password"
+            autoComplete="current-password"
             required
             // value={imageUrl}
             // onChange={handleImageUrl}

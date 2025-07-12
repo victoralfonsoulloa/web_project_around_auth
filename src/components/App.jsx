@@ -7,8 +7,9 @@ import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Login from './Login/Login';
 import Register from './Register/Register';
-import '../index.css';
+import * as auth from '../utils/auth';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
+import '../index.css';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -45,6 +46,17 @@ function App() {
     }
   };
 
+  const handleRegistration = ({ email, password }) => {
+    if (email && password) {
+      auth
+        .register(email, password)
+        .then(() => {
+          console.log('user succesfully registered');
+        })
+        .catch(console.error);
+    }
+  };
+
   return (
     <div className="content-wrapper">
       <CurrentUserContext.Provider
@@ -61,7 +73,10 @@ function App() {
             }
           />
           <Route path="/signin" element={<Login />} />
-          <Route path="/signup" element={<Register />} />
+          <Route
+            path="/signup"
+            element={<Register handleRegistration={handleRegistration} />}
+          />
           <Route
             path="*"
             element={

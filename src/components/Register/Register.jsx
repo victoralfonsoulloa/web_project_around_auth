@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function Register() {
+function Register({ handleRegistration }) {
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -15,10 +15,16 @@ function Register() {
     }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleRegistration(data);
+    setData({ email: '', password: '' });
+  };
+
   return (
     <>
       <h1 className="signup__title">Register</h1>
-      <form className="signup__form">
+      <form className="signup__form" onSubmit={handleSubmit}>
         <label className="signup__form-field">
           <input
             type="email"
@@ -27,6 +33,7 @@ function Register() {
             value={data.email}
             className="signup__input signup__input_type_email"
             id="signup-email"
+            autoComplete="username"
             required
             minLength="2"
             maxLength="40"
@@ -42,6 +49,7 @@ function Register() {
             value={data.password}
             className="signup__input signup__input_type_password"
             id="signup-password"
+            autoComplete="new-password"
             required
             onChange={handleChange}
           />
