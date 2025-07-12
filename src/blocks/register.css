@@ -62,3 +62,19 @@
   text-align: center;
   color: #fff;
 }
+
+.register__login-link {
+  color: #fff;
+  text-decoration: none;      /* removes underline */
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+}
+
+.register__login-link:visited {
+  color: #fff;
+}
+
+.register__login-link:hover,
+.register__login-link:focus {
+  color: #ccc;               
+}

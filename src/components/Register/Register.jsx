@@ -1,6 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Register() {
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <>
       <h1 className="signup__title">Register</h1>
@@ -10,11 +24,13 @@ function Register() {
             type="email"
             placeholder="Email"
             name="email"
+            value={data.email}
             className="signup__input signup__input_type_email"
             id="signup-email"
             required
             minLength="2"
             maxLength="40"
+            onChange={handleChange}
           />
           <span className="signup__input-error signup__input-error_type_email"></span>
         </label>
@@ -23,20 +39,23 @@ function Register() {
             type="password"
             placeholder="Password"
             name="password"
+            value={data.password}
             className="signup__input signup__input_type_password"
             id="signup-password"
             required
+            onChange={handleChange}
           />
           <span className="signup__input-error signup__input-error_type_password"></span>
         </label>
-        <button
-          type="submit"
-          className="signup__button"
-          id="signup__button"
-        >
+        <button type="submit" className="signup__button" id="signup__button">
           Sign Up
         </button>
-        <p className="signup__login-text">Already a member? Log in here.</p>
+        <p className="signup__login-text">
+          Already a member?{' '}
+          <Link to="/signin" className="register__login-link">
+            Sign in here.
+          </Link>
+        </p>
       </form>
     </>
   );

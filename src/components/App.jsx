@@ -8,20 +8,21 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Login from './Login/Login';
 import Register from './Register/Register';
 import '../index.css';
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     api
       .getUserInfo()
       .then((userData) => {
         setCurrentUser(userData);
-        // setIsAuthorized(true);
+        // setIsLoggedIn(true);
       })
       .catch((err) => {
-        // setIsAuthorized(false);
+        // setIsLoggedIn(false);
         console.error('Failed to fetch user info:', err);
       });
   }, []);
@@ -54,7 +55,9 @@ function App() {
           <Route
             path="/"
             element={
-              isAuthorized ? <Main /> : <Navigate to="/signin" replace />
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <main />
+              </ProtectedRoute>
             }
           />
           <Route path="/signin" element={<Login />} />
@@ -62,11 +65,13 @@ function App() {
           <Route
             path="*"
             element={
-              isAuthorized ? <Navigate to="/" /> : <Navigate to="/signin" />
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <main />
+              </ProtectedRoute>
             }
           />
         </Routes>
-        {isAuthorized ? <Footer /> : ""}
+        {isLoggedIn ? <Footer /> : ''}
       </CurrentUserContext.Provider>
     </div>
   );
