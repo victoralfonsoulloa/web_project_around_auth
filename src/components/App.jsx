@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Header from './Header/Header';
 import Main from './Main/Main';
 import Footer from './Footer/Footer';
@@ -14,6 +14,8 @@ import '../index.css';
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -57,6 +59,22 @@ function App() {
     }
   };
 
+  const handleLogin = ({ email, password }) => {
+    if (!email || !password) {
+      return;
+    }
+
+    auth
+      .authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          setIsLoggedIn(true);
+          navigate('/');
+        }
+      })
+      .catch(console.error);
+  };
+
   return (
     <div className="content-wrapper">
       <CurrentUserContext.Provider
@@ -68,11 +86,11 @@ function App() {
             path="/"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <main />
+                <Main />
               </ProtectedRoute>
             }
           />
-          <Route path="/signin" element={<Login />} />
+          <Route path="/signin" element={<Login handleLogin={handleLogin} />} />
           <Route
             path="/signup"
             element={<Register handleRegistration={handleRegistration} />}
