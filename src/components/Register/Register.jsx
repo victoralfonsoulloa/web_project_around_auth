@@ -3,46 +3,41 @@ import React from 'react';
 function Register() {
   return (
     <>
-    <h1>Sign in</h1>
-    <form>
-      <label className="form__field">
-        <input
-          type="text"
-          placeholder="Title"
-          name="title"
-          className="form__input form__input-name"
-          id="title"
-          required
-          minlength="2"
-          maxlength="40"
-          value={title}
-          onChange={handleTitle}
-        />
-        <span className="form__input-error title-error"></span>
-      </label>
-      <label className="form__field">
-        <input
-          type="url"
-          placeholder="Image URL"
-          name="image"
-          className="form__input"
-          id="imageUrl"
-          pattern="https://.*"
-          required
-          value={imageUrl}
-          onChange={handleImageUrl}
-        />
-        <span className="form__input-error imageUrl-error"></span>
-      </label>
-      <button
-        type="button"
-        className="form__button"
-        id="form__button"
-        onClick={handleClick}
-      >
-        Save
-      </button>
-    </form>
+      <h1 className="signup__title">Register</h1>
+      <form className="signup__form">
+        <label className="signup__form-field">
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            className="signup__input signup__input_type_email"
+            id="signup-email"
+            required
+            minLength="2"
+            maxLength="40"
+          />
+          <span className="signup__input-error signup__input-error_type_email"></span>
+        </label>
+        <label className="signup__form-field">
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            className="signup__input signup__input_type_password"
+            id="signup-password"
+            required
+          />
+          <span className="signup__input-error signup__input-error_type_password"></span>
+        </label>
+        <button
+          type="submit"
+          className="signup__button"
+          id="signup__button"
+        >
+          Sign Up
+        </button>
+        <p className="signup__login-text">Already a member? Log in here.</p>
+      </form>
     </>
   );
 }
