@@ -58,7 +58,7 @@ function Login({ handleLogin }) {
           Sign In
         </button>
         <p className="login__signup-text">
-          Are you not a member?{' '}
+          Not a member?{' '}
           <Link to="/signup" className="register__login-link">
             Sign up here.
           </Link>

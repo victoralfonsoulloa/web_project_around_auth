@@ -18,6 +18,29 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem('jwt');
+    console.log(token);
+    if (token) {
+      auth
+        .getUserData(token)
+        .then((userData) => {
+          setCurrentUser((prevData) => ({
+            ...prevData,
+            ...userData.data,
+          }));
+          console.log('current user:', currentUser);
+          setIsLoggedIn(true);
+          navigate('/');
+        })
+        .catch((err) => {
+          console.error('Invalid token:', err);
+          setIsLoggedIn(false);
+          localStorage.removeItem('jwt'); // Remove invalid token
+        });
+    }
+  }, []);
+
+  useEffect(() => {
     api
       .getUserInfo()
       .then((userData) => {
@@ -33,7 +56,10 @@ function App() {
   const handleUpdateUser = async ({ name, about }) => {
     try {
       const newData = await api.setUserInfo(name, about);
-      setCurrentUser(newData);
+      setCurrentUser((prevData) => ({
+        ...prevData,
+        ...newData,
+      }));
     } catch (err) {
       console.error('Failed to update user info:', err);
     }
@@ -69,7 +95,14 @@ function App() {
       .then((data) => {
         if (data.token) {
           setIsLoggedIn(true);
-          navigate('/');
+          localStorage.setItem('jwt', data.token);
+          auth
+            .getUserData(data.token)
+            .then((userData) => {
+              console.log(userData);
+              navigate('/');
+            })
+            .catch(console.error);
         }
       })
       .catch(console.error);
@@ -80,7 +113,11 @@ function App() {
       <CurrentUserContext.Provider
         value={{ currentUser, handleUpdateUser, handleUpdateAvatar }}
       >
-        <Header />
+        <Header
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+          setIsLoggedIn={setIsLoggedIn}
+        />
         <Routes>
           <Route
             path="/"
