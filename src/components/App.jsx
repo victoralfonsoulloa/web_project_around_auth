@@ -7,13 +7,19 @@ import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Login from './Login/Login';
 import Register from './Register/Register';
+import Popup from './Main/Components/Popup/Popup';
+import StatusPopup from './Main/Components/Popup/StatusPopup/StatusPopup';
 import * as auth from '../utils/auth';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
+import successImage from '../images/success-image.svg';
+import errorImage from '../images/error-image.svg';
 import '../index.css';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
+  const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -80,8 +86,12 @@ function App() {
         .register(email, password)
         .then(() => {
           console.log('user succesfully registered');
+          setIsSuccessPopupOpen(true);
         })
-        .catch(console.error);
+        .catch(() => {
+          console.error;
+          setIsErrorPopupOpen(true);
+        });
     }
   };
 
@@ -105,7 +115,10 @@ function App() {
             .catch(console.error);
         }
       })
-      .catch(console.error);
+      .catch(() => {
+        console.error;
+        setIsErrorPopupOpen(true);
+      });
   };
 
   return (
@@ -142,6 +155,24 @@ function App() {
           />
         </Routes>
         {isLoggedIn ? <Footer /> : ''}
+
+        {isSuccessPopupOpen && (
+          <Popup onClose={() => setIsSuccessPopupOpen(false)}>
+            <StatusPopup
+              image={successImage}
+              title="Awesome, you have been successfully registered."
+            />
+          </Popup>
+        )}
+
+        {isErrorPopupOpen && (
+          <Popup onClose={() => setIsErrorPopupOpen(false)}>
+            <StatusPopup
+              image={errorImage}
+              title="Oops, something went wrong. Please try again!"
+            />
+          </Popup>
+        )}
       </CurrentUserContext.Provider>
     </div>
   );
