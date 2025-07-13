@@ -118,32 +118,33 @@ function App() {
   return (
     <div className="content-wrapper">
       <CurrentUserContext.Provider
-        value={{ currentUser, handleUpdateUser, handleUpdateAvatar }}
+        value={{
+          currentUser,
+          setCurrentUser,
+          isLoggedIn,
+          setIsLoggedIn,
+          handleUpdateUser,
+          handleUpdateAvatar,
+          handleLogin,
+          handleRegistration,
+        }}
       >
-        <Header
-          currentUser={currentUser}
-          setCurrentUser={setCurrentUser}
-          setIsLoggedIn={setIsLoggedIn}
-          isLoggedIn={isLoggedIn}
-        />
+        <Header />
         <Routes>
           <Route
             path="/"
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ProtectedRoute>
                 <Main />
               </ProtectedRoute>
             }
           />
-          <Route path="/signin" element={<Login handleLogin={handleLogin} />} />
-          <Route
-            path="/signup"
-            element={<Register handleRegistration={handleRegistration} />}
-          />
+          <Route path="/signin" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
           <Route
             path="*"
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ProtectedRoute>
                 <main />
               </ProtectedRoute>
             }

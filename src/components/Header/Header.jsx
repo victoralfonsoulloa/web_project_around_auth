@@ -1,12 +1,19 @@
 import logo from '../../images/logo.png';
 import menuIcon from '../../images/menu.png';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-export default function Header({ currentUser, setCurrentUser, setIsLoggedIn }) {
+export default function Header() {
+  const {
+    currentUser,
+    setCurrentUser,
+    setIsLoggedIn,
+  } = useContext(CurrentUserContext);
+
   const [action, setAction] = useState('');
   const [menu, setMenu] = useState(false);
-  const [menuWasOpened, setMenuWasOpened] = useState(false); // NEW
+  const [menuWasOpened, setMenuWasOpened] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -28,7 +35,6 @@ export default function Header({ currentUser, setCurrentUser, setIsLoggedIn }) {
     if (action === 'Log In') navigate('/signin');
   };
 
-  // Only show dropdown after first interaction
   const handleMenuClick = () => {
     setMenuWasOpened(true);
     setMenu(!menu);
@@ -36,7 +42,6 @@ export default function Header({ currentUser, setCurrentUser, setIsLoggedIn }) {
 
   return (
     <>
-      {/* Dropdown menu above header, only for logged-in users and after first click */}
       {currentUser.email && menuWasOpened && (
         <div
           className={`header__menu_adaptable ${
@@ -54,14 +59,12 @@ export default function Header({ currentUser, setCurrentUser, setIsLoggedIn }) {
           <img src={logo} alt="Around the U.S logo" className="header__logo" />
           {currentUser.email ? (
             <>
-              {/* Desktop menu hidden on mobile */}
               <div className="header__menu header__menu_invisible">
                 <span className="header__user">{currentUser.email}</span>
                 <span className="header__action" onClick={handleAction}>
                   {action}
                 </span>
               </div>
-              {/* Hamburger icon for mobile */}
               <img
                 className="header__menu-icon"
                 src={menuIcon}
@@ -71,7 +74,6 @@ export default function Header({ currentUser, setCurrentUser, setIsLoggedIn }) {
               />
             </>
           ) : (
-            // Always show login/register menu when not logged in
             <div className="header__menu">
               <span className="header__action" onClick={handleAction}>
                 {action}

@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Login({ handleLogin }) {
+function Login() {
+  const { handleLogin } = useContext(CurrentUserContext);
+
   const [data, setData] = useState({
     email: '',
     password: '',
