@@ -25,38 +25,22 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem('jwt');
-    console.log(token);
     if (token) {
-      auth
-        .getUserData(token)
-        .then((userData) => {
-          setCurrentUser((prevData) => ({
-            ...prevData,
-            ...userData.data,
-          }));
-          console.log('current user:', currentUser);
+      Promise.all([api.getUserInfo(), auth.getUserData(token)])
+        .then(([profileData, authUserData]) => {
+          setCurrentUser({
+            ...profileData,
+            ...authUserData.data, // email and _id
+          });
           setIsLoggedIn(true);
           navigate('/');
         })
         .catch((err) => {
-          console.error('Invalid token:', err);
           setIsLoggedIn(false);
-          localStorage.removeItem('jwt'); // Remove invalid token
+          localStorage.removeItem('jwt');
+          console.error('Invalid token or failed to fetch user info:', err);
         });
     }
-  }, []);
-
-  useEffect(() => {
-    api
-      .getUserInfo()
-      .then((userData) => {
-        setCurrentUser(userData);
-        // setIsLoggedIn(true);
-      })
-      .catch((err) => {
-        // setIsLoggedIn(false);
-        console.error('Failed to fetch user info:', err);
-      });
   }, []);
 
   const handleUpdateUser = async ({ name, about }) => {
@@ -74,12 +58,14 @@ function App() {
   const handleUpdateAvatar = async ({ avatar }) => {
     try {
       const updatedUser = await api.changeProfilePicture(avatar);
-      setCurrentUser(updatedUser);
+      setCurrentUser((prevData) => ({
+        ...prevData,
+        ...updatedUser,
+      }));
     } catch (err) {
       console.error('Failed to update avatar:', err);
     }
   };
-
   const handleRegistration = ({ email, password }) => {
     if (email && password) {
       auth
@@ -108,9 +94,17 @@ function App() {
           localStorage.setItem('jwt', data.token);
           auth
             .getUserData(data.token)
-            .then((userData) => {
-              console.log(userData);
-              navigate('/');
+            .then((authUserData) => {
+              api
+                .getUserInfo()
+                .then((profileData) => {
+                  setCurrentUser({
+                    ...profileData,
+                    ...authUserData.data, // merge email and _id from auth
+                  });
+                  navigate('/');
+                })
+                .catch(console.error);
             })
             .catch(console.error);
         }

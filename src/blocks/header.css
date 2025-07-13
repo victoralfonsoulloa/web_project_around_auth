@@ -17,13 +17,18 @@
   font-size: 18px;
   line-height: 22px;
   text-align: right;
-  color: #fff;
+  color: #ccc;
   padding: 45px 0 41px 0;
+}
+
+.header__user {
+  margin-right: 23px;
+  color: #fff;
 }
 
 .header__action:hover {
   cursor: pointer;
-  color: #ccc;
+  color: #fff;
 }
 
 @media (max-width: 890px) {
