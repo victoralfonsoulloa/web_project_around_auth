@@ -1,22 +1,21 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function NewCard({ onAddCard, onClose }) {
-
-  const [title, setTitle] = useState("")
-  const [imageUrl, setImageUrl] = useState("")
+  const [title, setTitle] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
 
   const handleTitle = (event) => {
     setTitle(event.target.value);
-  }
+  };
 
-   const handleImageUrl = (event) => {
+  const handleImageUrl = (event) => {
     setImageUrl(event.target.value);
-  }
+  };
 
-    const handleClick = () => {
+  const handleClick = () => {
     onAddCard({ title, imageUrl });
-    setTitle("");      // Reset form
-    setImageUrl("");   // Reset form
+    setTitle(''); // Reset form
+    setImageUrl(''); // Reset form
     onClose();
   };
 
@@ -30,8 +29,8 @@ export default function NewCard({ onAddCard, onClose }) {
           className="form__input form__input-name"
           id="title"
           required
-          minlength="2"
-          maxlength="40"
+          minLength="2"
+          maxLength="40"
           value={title}
           onChange={handleTitle}
         />
@@ -51,7 +50,12 @@ export default function NewCard({ onAddCard, onClose }) {
         />
         <span className="form__input-error imageUrl-error"></span>
       </label>
-      <button type="button" className="form__button" id="form__button" onClick={handleClick}>
+      <button
+        type="button"
+        className="form__button"
+        id="form__button"
+        onClick={handleClick}
+      >
         Save
       </button>
     </>

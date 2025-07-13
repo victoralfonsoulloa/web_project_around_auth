@@ -18,6 +18,7 @@ function Login({ handleLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     handleLogin(data);
+    setData({ email: '', password: '' });
   };
 
   return (

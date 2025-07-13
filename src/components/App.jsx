@@ -124,6 +124,7 @@ function App() {
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
           setIsLoggedIn={setIsLoggedIn}
+          isLoggedIn={isLoggedIn}
         />
         <Routes>
           <Route
