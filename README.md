@@ -1,4 +1,4 @@
-# Web Project Around Auth (Sprint 17)
+# Web Project Around Auth
 
 ## Description
 
