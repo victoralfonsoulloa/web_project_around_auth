@@ -8,7 +8,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Login from './Login/Login';
 import Register from './Register/Register';
 import Popup from './Main/Components/Popup/Popup';
-import StatusPopup from './Main/Components/Popup/StatusPopup/StatusPopup';
+import InfoTooltip from './Main/Components/Popup/InfoTooltip/InfoTooltip';
 import * as auth from '../utils/auth';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 import successImage from '../images/success-image.svg';
@@ -158,7 +158,7 @@ function App() {
 
         {isSuccessPopupOpen && (
           <Popup onClose={() => setIsSuccessPopupOpen(false)}>
-            <StatusPopup
+            <InfoTooltip
               image={successImage}
               title="Awesome, you have been successfully registered."
             />
@@ -167,7 +167,7 @@ function App() {
 
         {isErrorPopupOpen && (
           <Popup onClose={() => setIsErrorPopupOpen(false)}>
-            <StatusPopup
+            <InfoTooltip
               image={errorImage}
               title="Oops, something went wrong. Please try again!"
             />
